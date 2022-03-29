@@ -1,10 +1,11 @@
 <script lang="ts">
-import { parsedObject } from "./store/store";
+import { name, parsedObject } from "./store/store";
 import { onMount } from 'svelte'
 
 
 let response: string;
 let hasError: boolean = false;
+let interfaceName:string = 'MyInterface';
 
 function transformToType(value: any){
   
@@ -47,13 +48,20 @@ function handlePostMessage(event: any){
   }
 }
 
+function setStoreName(newName: string){
+  name.set(newName) 
+}
+
 onMount(() => {
   window.addEventListener('message', handlePostMessage)
 })
 
+$:setStoreName(interfaceName)
+
 </script>
 
 <div class="json">
+  <input type="text" bind:value={interfaceName}>
   {#if hasError}
     <p style="color: red">Invalid Json</p>
   {/if}
@@ -76,5 +84,10 @@ textarea {
   padding: 0.5rem;
   background-color: var(--code-bg-color);
   color: #fff;
+}
+input {
+  padding: 0.5rem;
+  width: calc(100% - 1rem);
+  margin-bottom: 0.25rem;
 }
 </style>

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { parsedObject } from "./store/store";
+import { name, parsedObject } from "./store/store";
 
 
   function displayValue(key: string, value: any){
@@ -15,7 +15,7 @@ import { parsedObject } from "./store/store";
     Object.entries(obj).forEach(([key, value]) => {
       if(typeof value === 'object'){
         if(isArray(value)){
-          template += `<p style="margin:0; padding:0;padding-left: ${padding}px;"><span style="color:#D39A67;">${key}</span>: Array<{${displayInterface(value[0], padding+20)} <span style="padding-left:${padding}px; color=#60AFEE">}</span> </p>`
+          template += `<p style="margin:0; padding:0;padding-left: ${padding}px;"><span style="color:#D39A67;">${key}</span>: Array<{${displayInterface(value[0], padding+20)} <span style="padding-left:${padding}px; color=#60AFEE">}></span> </p>`
         } else{
 
          template = template + `<p style="margin:0; padding:0; padding-left:${padding}px;"><span style="color:#D39A67;">${key}</span>: {${displayInterface(value, padding+20)} <span style="padding-left:${padding}px; color:#60AFEE">}</span></p>`
@@ -30,8 +30,9 @@ import { parsedObject } from "./store/store";
     return template
   }
 
-  function renderOpenBracket(){
-    return `<code><span style="color:#60AFEE">export</span> <span style="color: #C778DD">interface</span> <span style="color:#D39A67">MyInterface</span> {</code>`
+  function renderOpenBracket(iname: string){
+    return `<code><span style="color:#60AFEE">export</span> <span style="color: #C778DD">interface</span> <span style="color:#D39A67">${iname}</span> {</code>`
+
   }
   
   function renderCloseBracket(){
@@ -43,7 +44,7 @@ import { parsedObject } from "./store/store";
 <div class="result">
   <div class="code">
 
-  {@html renderOpenBracket()} 
+  {@html renderOpenBracket($name)} 
   {@html displayInterface($parsedObject)}
   {@html renderCloseBracket()}
 
